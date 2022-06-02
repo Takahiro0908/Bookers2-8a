@@ -6,11 +6,23 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @books = @user.books
     @book = Book.new
+    @following_users = @user.followings
+    @follower_users = @user.followers
+
+    # @following_users = @user.following_user
+    # @follower_users = @user.follower_user
+
   end
 
   def index
     @users = User.all
     @book = Book.new
+    @books = current_user.books
+    @following_users = current_user.followings
+    @follower_users = current_user.followers
+
+    # @following_users = current_user.following_user
+    # @follower_users = current_user.follower_user
   end
 
   def edit
@@ -31,6 +43,8 @@ class UsersController < ApplicationController
     end
   end
 
+
+
   private
 
   def user_params
@@ -43,5 +57,5 @@ class UsersController < ApplicationController
      redirect_to books_path
     end
   end
-  
+
 end

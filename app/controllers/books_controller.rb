@@ -13,7 +13,9 @@ before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   def index
     @book = Book.new
     @books = Book.all
-    
+    @following_users = current_user.followings
+    @follower_users = current_user.followers
+
   end
 
   def create
@@ -51,7 +53,7 @@ before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   def book_params
     params.require(:book).permit(:title, :body)
   end
-  
+
   def ensure_correct_user
    @book = Book.find(params[:id])
     unless @book.user == current_user
