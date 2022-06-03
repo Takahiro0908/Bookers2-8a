@@ -1,0 +1,8 @@
+<% if user_signed_in? %>
+    <%= form_tag(search_path, method: :get) do %>
+      <%= text_field_tag 'content' %>
+      <%= select_tag 'model', options_for_select({ "User" => "user", "Book" => "book" }) %>
+      <%= select_tag 'method', options_for_select({ "完全一致" => "perfect", "部分一致" => "partial", "前方一致" => "forward",  "後方一致" => "backword"}) %>
+      <%= submit_tag '検索' %>
+    <% end %>
+<% end %>

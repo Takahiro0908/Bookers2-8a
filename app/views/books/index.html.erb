@@ -11,6 +11,11 @@
     </div>
 
     <div class='col-md-8 offset-md-1'>
+      <% if user_signed_in? %>
+        <%= render 'searchs/form' %>
+      <% end %>
+ 
+      
       <h2>Books</h2>
       <%= render 'index', books: @books %>
     </div>
