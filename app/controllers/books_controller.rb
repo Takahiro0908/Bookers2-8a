@@ -11,10 +11,32 @@ before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   end
 
   def index
+     to = Time.current.at_end_of_day
+     from = (to - 6.day).at_beginning_of_day
+    # from = Time.current.at_beginning_of_day
+    # to = (from + 6.day).at_end_of_day
+    @books = Book.includes(:favorites).sort {|a,b|
+        b.favorites.where(created_at: from...to).size <=>
+        a.favorites.where(created_at: from...to).size
+      }
+    # @books = Book.includes(:favorited_users).sort {|a,b|
+    #     b.favorited_users.includes(:favorites).where(created_at: from...to).size <=>
+    #     a.favorited_users.includes(:favorites).where(created_at: from...to).size
+    #   }
+      # sort_by {|x|
+      #     x.favorited_users.includes(:favorites).where(created_at: from...to).size
+      #   }.reverse
+      # sort {|a,b|
+      #   a.favorited_users.includes(:favorites).where(created_at: from...to).size <=>
+      #   b.favorited_users.includes(:favorites).where(created_at: from...to).size
+      #   }.reverse
+
     @book = Book.new
-    @books = Book.all
-    @following_users = current_user.followings
-    @follower_users = current_user.followers
+
+
+    # @books = Book.all
+    # @following_users = current_user.followings
+    # @follower_users = current_user.followers
 
   end
 
@@ -60,4 +82,5 @@ before_action :ensure_correct_user, only: [:edit, :update, :destroy]
     redirect_to books_path
     end
   end
+
 end
